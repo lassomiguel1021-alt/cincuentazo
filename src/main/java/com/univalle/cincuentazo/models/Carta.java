@@ -27,7 +27,12 @@ public class Carta {
         return imagen;
     }
 
-    public int getValorReal(int sumaMesaActual){
+    /**
+     * Valor base de la carta.
+     * NO decide el valor final del As (eso lo hace el jugador o la máquina).
+     * Solo indica si necesita decisión especial.
+     */
+    public int getValorBase(){
         String r = rango.trim().toUpperCase();
 
         try {
@@ -44,14 +49,18 @@ public class Carta {
             case "K":
                 return -10;
             case "A":
-                return (sumaMesaActual + 10 <= 50) ? 10 : 1;
+                return -1;
             default:
                 return 0;
         }
     }
 
-    public boolean esJugable(int sumaMesaActual){
-        return sumaMesaActual + getValorReal(sumaMesaActual) <= 50;
+    /**
+     * Un As NO se evalúa aquí, porque depende del jugador.
+     * Se evalúa en Juego según lo que el jugador elija.
+     */
+    public boolean esJugable(int sumaMesaActual, int valorElegido){
+        return sumaMesaActual + valorElegido <= 50;
     }
 
     @Override
