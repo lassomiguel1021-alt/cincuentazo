@@ -1,7 +1,8 @@
 package com.univalle.cincuentazo.models;
 
-public class NoHayCartasException extends RuntimeException {
-    public NoHayCartasException(String message) {
-        super(message);
+public class NoHayCartasException extends Exception {
+    public NoHayCartasException(String msg) {
+        super(msg);
     }
 }
+
