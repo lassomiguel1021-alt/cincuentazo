@@ -1,69 +1,45 @@
 package com.univalle.cincuentazo.models;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Mazo {
+    private final List<Carta> cartas;
 
-    private final List<Carta> cartas; //Lista de cartas disponibles
-    /*
-    * Constructor: Crea el mazo de todas las cartas y lo baraja
-    */
-    public Mazo(){
-        this.cartas = new ArrayList<>();
-        inicializarMazo();
-        barajar();
+    public Mazo() {
+        cartas = new ArrayList<>();
+        crearMazo();
+        mezclar();
     }
 
-    private void inicializarMazo(){
-        String[] palos = {"corazones", "picas", "tréboles", "diamantes"};
-        String[] rangos = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-
-        for (String palo : palos){
-            for (String rango : rangos){
-                cartas.add(new Carta(rango, palo));
+    private void crearMazo() {
+        // Creamos un mazo simple: valores 1..10 por 4 palos (como ejemplo)
+        String[] palos = {"Corazones", "Diamantes", "Treboles", "Picas"};
+        String[] nombres = {"As","2","3","4","5","6","7","8","9","10"};
+        int[] valores =    {1,  2,  3,  4,  5,  6,  7,  8,  9,  10};
+        for (String palo : palos) {
+            for (int i = 0; i < nombres.length; i++) {
+                cartas.add(new Carta(nombres[i], palo, valores[i]));
             }
         }
     }
-    /*
-    * Baraja el mazo aleatoriamente
-    */
-    private void barajar(){
-        Collections.shuffle(cartas);
+
+    public void mezclar() {
+        Collections.shuffle(cartas, new Random());
     }
 
-    /**
-    * Toma una carta del tope del mazo
-    * @throws NoHayCartasException si el mazo está vacío
-    */
+    public boolean estaVacio() {
+        return cartas.isEmpty();
+    }
 
-    public Carta tomarCarta() throws NoHayCartasException {
-        if (cartas.isEmpty()) {
-            throw new NoHayCartasException("No hay más cartas en el mazo.");
-        }
+    public Carta sacarCarta() throws NoHayCartasException {
+        if (estaVacio()) throw new NoHayCartasException("No hay cartas en el mazo");
         return cartas.remove(0);
     }
 
-    /**
-    * Devuelve el numero de cartas que quedan en el mazo
-    */
-    public int cartasRestantes(){
+    public int cartasRestantes() {
         return cartas.size();
     }
-
-    /**
-     * Reinserta cartas en el mazo (por ejemplo, cuando se reciclan de la mesa).
-     */
-
-    public void agregarCartas(List<Carta> nunevasCartas){
-        cartas.addAll(nunevasCartas);
-        barajar();
-    }
-
-    @Override
-    public String toString() {
-        return "Mazo con " + cartas.size() + " cartas restantes";
-    }
-
 }
