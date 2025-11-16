@@ -68,3 +68,14 @@ public class Carta {
         return rango + " de " + palo;
     }
 }
+     * Se evalúa en Juego según lo que el jugador elija.
+     */
+    public boolean esJugable(int sumaMesaActual, int valorElegido){
+        return sumaMesaActual + valorElegido <= 50;
+    }
+
+    @Override
+    public String toString(){
+        return rango + " de " + palo;
+    }
+}
